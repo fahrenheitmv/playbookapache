@@ -1,0 +1,23 @@
+---
+ hosts: exemplo
+    remote_user: Analista
+    become: yes
+    become_method: sudo
+
+    tasks:
+
+  - name: Instalação do APACHE 
+    yum:
+       name: httpd
+       state: latest
+
+  - name: Configurar 
+    template: 
+      src: /home/ansible/template_apache.conf
+      dest: /etc/httpd/conf/httpd.conf
+
+  - name: Habilitar inicialização
+       command: /usr/bin/systemctl enable httpd
+
+  - name: iniciar APACHE
+       command: /usr/bin/systemctl start httpd     
